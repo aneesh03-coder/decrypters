@@ -22,15 +22,10 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.33.0",
     "react-icons": "^4.4.0",
-
-    "tailwind-scrollbar-hide": "^1.1.7",
-    "typewriter-effect": "^2.18.2"
-
     "react-toastify": "^9.0.5",
     "tailwind-scrollbar-hide": "^1.1.7",
     "typewriter-effect": "^2.18.2",
     "yup": "^0.32.11"
-
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
