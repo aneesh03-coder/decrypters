@@ -25,7 +25,8 @@ const CardDetails = () => {
   const router = useRouter();
   const caseDetailsId = router.query.caseDetailsId;
   return (
-    <div className="max-w-6xl mx-auto mt-4 mb-4">
+           
+    <div  className="max-w-6xl mx-auto mt-4 mb-4">
       <h3 className="text-2xl">Case Details {caseDetailsId}</h3>
 
       <div className="flex flex-col items-center md:flex-row  gap-12">

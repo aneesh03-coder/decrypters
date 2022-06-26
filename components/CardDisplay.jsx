@@ -1,9 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router'
 
-const CardDisplay = ({ caseTitle, caseDescription }) => {
+const CardDisplay = ({ caseTitle, caseDescription, Id }) => {
+
+  const router = useRouter()
   return (
-    <div className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row md:max-w-6xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 mb-3">
+    <div onClick={()=>router.push(`/case-details/${Id}`)} className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row md:max-w-6xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 mb-3">
       <Image
         className="object-cover rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
         src="https://i2-prod.mirror.co.uk/incoming/article20801229.ece/ALTERNATES/n615/0_In-California-Simah-Herman-18-started-a-campaign-to-stop-vaping-after-she-suffered-from-lung-fail.jpg"
