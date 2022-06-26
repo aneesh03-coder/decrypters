@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
+
 
 const ReadMore = ({ children }) => {
+
+
   const text = children;
   const [isReadMore, setIsReadMore] = useState(true);
+  
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);
   };
+
   return (
     <p className="text">
       {isReadMore ? text.slice(0, 150) : text}
@@ -19,6 +26,28 @@ const ReadMore = ({ children }) => {
       </span>
     </p>
   );
+};
+
+const donation = {
+  name: 'alex',
+  price: 100
+}
+const publishableKey = `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`;
+const stripePromise = loadStripe(publishableKey);
+
+
+const abcd = async () => {
+  console.log("hello")
+  const stripe = await stripePromise;
+  const checkoutSession = await axios.post('/api/create-stripe-session', {
+    donation: donation,
+  });
+  const result = await stripe.redirectToCheckout({
+    sessionId: checkoutSession.data.id,
+  });
+  if (result.error) {
+    alert(result.error.message);
+  } 
 };
 
 const CardDetails = () => {
@@ -153,7 +182,7 @@ const CardDetails = () => {
 
           <p>26 donations</p>
 
-          <button className="btn bg-yellow-400 p-3">Donate</button>
+          <button className="btn bg-yellow-400 p-3" onClick={() => abcd()}>Donate</button>
 
           <div className="flex flex-row items-center gap-3">
             <div className="relative w-10 h-10 overflow-hidden rounded-full bg-green-200">

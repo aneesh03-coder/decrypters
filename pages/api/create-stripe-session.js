@@ -18,8 +18,8 @@ async function CreateStripeSession (req, res) {
     payment_method_types: ['card'],
     line_items: [transformedDonation],
     mode: 'payment',
-    success_url: redirectURL + '/success',
-    cancel_url: redirectURL + '?status=cancel',
+    success_url: redirectURL + '/Success',
+    cancel_url: redirectURL + '/Cancel',
     metadata: {
         name: donation.name,
       },
