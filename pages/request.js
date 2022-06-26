@@ -4,6 +4,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import TextField from '@mui/material/TextField';
+import firebase from 'firebase/compat/app';
+import { serverTimestamp } from 'firebase/firestore';
 
 const schema = yup.object().shape({
   caseTitle: yup.string().required('The case title is required!'),
@@ -49,7 +51,7 @@ const saveCampaign = async (submittedData) => {
     patient_name: submittedData.patientName,
     relation: submittedData.relation,
     requester_contact: submittedData.requesterContact,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    timestamp: serverTimestamp(),
   };
   const response = await fetch('/api/addCampaign', {
     method: 'POST',
@@ -59,6 +61,8 @@ const saveCampaign = async (submittedData) => {
     },
   });
   const data = await response.json();
+
+  console.log(data);
 };
 
 console.log(randomImage());
