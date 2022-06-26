@@ -16,9 +16,12 @@ function Feed() {
 
       {/* Feed */}
       <div>
+        
         {/* Marty's component */}
 
         <CardDisplay
+          Id="123"
+
           caseImage="https://i2-prod.mirror.co.uk/incoming/article20801229.ece/ALTERNATES/n615/0_In-California-Simah-Herman-18-started-a-campaign-to-stop-vaping-after-she-suffered-from-lung-fail.jpg"
           caseTitle="Help me raise money for my Mothers Heart surgery"
           caseDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
@@ -28,6 +31,8 @@ function Feed() {
           tempor at nisi. Sed non risus non libero eleifend molestie."
         />
         <CardDisplay
+         Id="12333"
+
           caseImage="https://i2-prod.mirror.co.uk/incoming/article20801229.ece/ALTERNATES/n615/0_In-California-Simah-Herman-18-started-a-campaign-to-stop-vaping-after-she-suffered-from-lung-fail.jpg"
           caseTitle="Help me raise money for my Mothers Heart surgery"
           caseDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
