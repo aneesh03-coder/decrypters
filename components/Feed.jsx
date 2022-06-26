@@ -65,7 +65,9 @@ function Feed() {
 
       {/* Feed */}
       <div>
+        
         {/* Marty's component */}
+
 
         {info.map((data) => (
           <div key={data.id}>
@@ -78,6 +80,40 @@ function Feed() {
             />
           </div>
         ))}
+
+        <CardDisplay
+          Id="123"
+
+          caseImage="https://i2-prod.mirror.co.uk/incoming/article20801229.ece/ALTERNATES/n615/0_In-California-Simah-Herman-18-started-a-campaign-to-stop-vaping-after-she-suffered-from-lung-fail.jpg"
+          caseTitle="Help me raise money for my Mothers Heart surgery"
+          caseDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+          lobortis venenatis ex, at tincidunt eros faucibus tincidunt. Mauris ac
+          nunc tortor. Vivamus non urna ipsum. Vestibulum in magna non sapien
+          pellentesque dignissim. Sed tortor sapien, blandit id elementum in,
+          tempor at nisi. Sed non risus non libero eleifend molestie."
+        />
+        <CardDisplay
+         Id="12333"
+
+          caseImage="https://i2-prod.mirror.co.uk/incoming/article20801229.ece/ALTERNATES/n615/0_In-California-Simah-Herman-18-started-a-campaign-to-stop-vaping-after-she-suffered-from-lung-fail.jpg"
+          caseTitle="Help me raise money for my Mothers Heart surgery"
+          caseDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+          lobortis venenatis ex, at tincidunt eros faucibus tincidunt. Mauris ac
+          nunc tortor. Vivamus non urna ipsum. Vestibulum in magna non sapien
+          pellentesque dignissim. Sed tortor sapien, blandit id elementum in,
+          tempor at nisi. Sed non risus non libero eleifend molestie."
+        />
+
+        <CardDisplay
+          caseImage="https://i2-prod.mirror.co.uk/incoming/article20801229.ece/ALTERNATES/n615/0_In-California-Simah-Herman-18-started-a-campaign-to-stop-vaping-after-she-suffered-from-lung-fail.jpg"
+          caseTitle="Help me raise money for my Mothers Heart surgery"
+          caseDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+          lobortis venenatis ex, at tincidunt eros faucibus tincidunt. Mauris ac
+          nunc tortor. Vivamus non urna ipsum. Vestibulum in magna non sapien
+          pellentesque dignissim. Sed tortor sapien, blandit id elementum in,
+          tempor at nisi. Sed non risus non libero eleifend molestie."
+        />
+
       </div>
     </div>
   );
