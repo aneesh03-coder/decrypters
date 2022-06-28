@@ -13,7 +13,7 @@ function Feed() {
   }, [allCampaigns]);
 
   return (
-    <div className=" max-w-6xl border-2 max-h-screen overflow-y-scroll scrollbar-hide p-3">
+    <div className=" max-w-6xl border-2 min-h-screen overflow-y-scroll scrollbar-hide p-3">
       <div className="flex  items-center justify-between">
         <h1 className="p-5 pb-0 text-xl font-bold">
           Fundraisers in your communnity
