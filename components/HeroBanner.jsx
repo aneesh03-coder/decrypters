@@ -10,7 +10,7 @@ function HeroBanner() {
 
   return (
     <div className=" bg-[url('https://images.pexels.com/photos/9486900/pexels-photo-9486900.jpeg?auto=compress&cs=tinysrgb&w=600')] flex-1 max-w-6xl bg-[#dcdcdc] rounded-lg py-6 px-12 h-4/5 pb-12 leading-3 bg-cover bg-center  relative sticky-0">
-      <div className="py-12 -mt-12 text-white italic text-lg">
+      <div className="py-12 -mt-12 text-white italic font-cinzel text-2xl">
         <Typewriter
           options={{
             autoStart: true,
@@ -32,7 +32,7 @@ function HeroBanner() {
             <button
               onClick={() => router.push("/request")}
               type="button"
-              className="rounded-lg py-2 px-6 bg-transparent text-white border border-white mt-12 text-lg font-semibold cursor-pointer transition-transform duration-150 ease-out hover:scale-150 z-40"
+              className="rounded-lg py-2 px-6 bg-transparent text-white border border-white mt-12 text-2xl font-semibold cursor-pointer transition-transform duration-150 ease-out hover:scale-150 z-40"
             >
               Start campaign
             </button>
