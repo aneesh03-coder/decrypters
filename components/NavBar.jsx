@@ -16,7 +16,7 @@ function NavBar() {
         <Link href="/">DF</Link>
       </p>
       </div>
-      <div className="text-xl flex space-x-4 text-gray-500 cursor-pointer relative border-none bg-transparent justify-center items-center">
+      <div className="text-xl font-poppins  flex space-x-4 text-gray-500 cursor-pointer relative border-none bg-transparent justify-center items-center">
         {session && (
        
         <p className="text-md capitalize italic "> <small>wecome</small>  {session?.user?.name}</p>)
