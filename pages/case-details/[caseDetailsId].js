@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { getSession, useSession } from "next-auth/react";
-import { useSelector } from "react-redux";
-import { paymentOverviewFetch } from "../../store/paymentsSlice";
-import { wrapper } from "../../store/store";
+/* eslint-disable @next/next/no-img-element */
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { getSession, useSession } from 'next-auth/react';
+import { useSelector } from 'react-redux';
+import { paymentOverviewFetch } from '../../store/paymentsSlice';
+import { wrapper } from '../../store/store';
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -18,7 +19,7 @@ const ReadMore = ({ children }) => {
         onClick={toggleReadMore}
         className="read-or-hide cursor-pointer hover:text-green-500"
       >
-        {isReadMore ? "...read more" : " show less"}
+        {isReadMore ? '...read more' : ' show less'}
       </span>
     </p>
   );
@@ -51,6 +52,7 @@ const CardDetails = ({ allPayments }) => {
     });
     setInfo(selectedCampaign1[0]);
   }, []);
+
   useEffect(() => {
     let finalDonationAmount = 0;
     allPayments.forEach((payment) => {
@@ -62,29 +64,51 @@ const CardDetails = ({ allPayments }) => {
 
   return (
     <div className="max-w-6xl mx-auto mt-4 mb-4 p-3">
+      <div
+        onClick={() => router.push('/')}
+        className="flex flex-row items-center gap-[3px] cursor-pointer text-[#8f0d34] hover:text-[#530319]"
+      >
+        <div className="overflow-hidden">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M7 16l-4-4m0 0l4-4m-4 4h18"
+            />
+          </svg>
+        </div>
+        <p className="text-lg font-semibold">Go back</p>
+      </div>
       <div className="max-w-6xl mx-auto mt-4 mb-4">
-        <h3 className="text-2xl">Case Details {caseDetailsId}</h3>
+        <h3 className="text-2xl font-semibold mb-2">
+          Case ID <span className="font-light">{caseDetailsId}</span>
+        </h3>
 
         <div className="flex flex-col items-center md:flex-row  gap-12">
           {/* Left side */}
           <div>
-            <h4 className="text-2xl font-bold mb-3">
+            <h4 className="text-xl font-bold mb-3">
               {/* {data.Title} */}
               {info.Title}
             </h4>
 
             <img
-              className="object-cover md:h-auto md:w-48 rounded-lg"
+              className="object-cover md:h-auto md:w-auto rounded-md mb-3"
               src={info?.patient_image}
               alt=""
-              width={700}
-              height={700}
             />
 
             <div className="flex flex-row items-center gap-3">
-              <div className="relative w-10 h-10 overflow-hidden rounded-full bg-green-200">
+              <div className="relative w-10 h-10 overflow-hidden rounded-full bg-[#8f0d3450]">
                 <svg
-                  className="absolute w-12 h-12 text-green-500 -left-1"
+                  className="absolute w-12 h-12 text-[#8f0d34] -left-1"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +121,7 @@ const CardDetails = ({ allPayments }) => {
                 </svg>
               </div>
               <p className="text-slate-500 text-lg font-semibold">
-                {session?.user?.name || info?.requestor || "Anonymous"} started
+                {session?.user?.name || info?.requestor || 'Anonymous'} started
                 this fundraiser
               </p>
             </div>
@@ -110,8 +134,8 @@ const CardDetails = ({ allPayments }) => {
               </span>
               <span>|</span>
               <span>
-                Raised {totalDonations}
-                <span className="font-semibold">$</span>
+                Raised <span className="font-semibold">$</span>
+                {totalDonations}
               </span>
             </div>
 
@@ -125,20 +149,20 @@ const CardDetails = ({ allPayments }) => {
               <h3 className="text-lg font-semibold mb-3">Patient Details</h3>
               <div className="px-4">
                 <h5 className="text-lg font-semibold mb-3">
-                  Name:{" "}
+                  Name:{' '}
                   <span className="font-light">
-                    {info?.patient_name || "Anonymous"}{" "}
+                    {info?.patient_name || 'Anonymous'}{' '}
                   </span>
                 </h5>
                 <h5 className="text-lg font-semibold mb-3">
                   Age: <span className="font-light">{info?.patient_age}</span>
                 </h5>
                 <h5 className="text-lg font-semibold mb-3">
-                  Gender:{" "}
+                  Gender:{' '}
                   <span className="font-light">{info?.patient_gender} </span>
                 </h5>
                 <h5 className="text-lg font-semibold mb-3">
-                  Address:{" "}
+                  Address:{' '}
                   <span className="font-light">{info?.patient_address}</span>
                 </h5>
               </div>
@@ -147,9 +171,9 @@ const CardDetails = ({ allPayments }) => {
             <div className="border-b-2 py-2 mt-3">
               <h3 className="text-lg font-semibold mb-3">Orginizer</h3>
               <div className="px-4 flex flex-row gap-4">
-                <div className="relative w-10 h-10 overflow-hidden rounded-full bg-green-200">
+                <div className="relative w-10 h-10 overflow-hidden rounded-full bg-[#8f0d3450]">
                   <svg
-                    className="absolute w-12 h-12 text-green-500 -left-1"
+                    className="absolute w-12 h-12 text-[#8f0d34] -left-1"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -163,19 +187,19 @@ const CardDetails = ({ allPayments }) => {
                 </div>
                 <div>
                   <h5 className="text-lg font-semibold mb-3">
-                    Name:{" "}
+                    Name:{' '}
                     <span className="font-light">
-                      {info?.requestor || "Anonymous"}{" "}
+                      {info?.requestor || 'Anonymous'}{' '}
                     </span>
                   </h5>
                   <h5 className="text-lg font-semibold mb-3">
-                    Email:{" "}
+                    Email:{' '}
                     <span className="font-light">
-                      {session?.user?.email || "***** (Hidden due to security)"}
+                      {session?.user?.email || '***** (Hidden due to security)'}
                     </span>
                   </h5>
                   <h5 className="text-lg font-semibold mb-3">
-                    Phone:{" "}
+                    Phone:{' '}
                     <span className="font-light">
                       {info?.requester_contact}
                     </span>
@@ -188,20 +212,20 @@ const CardDetails = ({ allPayments }) => {
           {/* Right side */}
           <div className="bg-white shadow-lg rounded-md p-4 w-full">
             <h5 className="text-lg font-semibold mb-3">
-              {" "}
+              {' '}
               <span className="font-light">
-                {totalDonations}$ USD raised of ${info.goal}{" "}
+                ${totalDonations} USD raised of ${info.goal}{' '}
               </span>
             </h5>
             <p className="mb-3">{allPayments.length} donations</p>
-            <button className="btn bg-[#8f0d34] hover:bg-[rgb(143,13,52)] p-3 mb-3 w-full rounded-md text-white font-bold">
+            <button className="btn bg-[#8f0d34] hover:bg-[#530319] p-3 mb-3 w-full rounded-md text-white font-bold">
               Donate
             </button>
             <div className="flex flex-row items-center gap-3 mb-3">
-              <div className="relative w-10 h-10 overflow-hidden rounded-full bg-green-200">
+              <div className="relative w-10 h-10 overflow-hidden rounded-full bg-[#8f0d3450]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="absolute w-6 h-6 text-green-500 left-2 top-2"
+                  className="absolute w-6 h-6 text-[#8f0d34] left-2 top-2"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -216,8 +240,8 @@ const CardDetails = ({ allPayments }) => {
               </div>
               <p className="text-slate-500 text-lg font-semibold">
                 {allPayments.length == 0
-                  ? "Be the first to donate"
-                  : "We would love for you to care"}
+                  ? 'Be the first to donate'
+                  : 'We would love for you to care'}
               </p>
             </div>
             {showDonationDetails.map((payments, index) => (
@@ -225,9 +249,9 @@ const CardDetails = ({ allPayments }) => {
                 key={index}
                 className="flex flex-row items-center gap-3 border-t-2 py-3"
               >
-                <div className="relative w-10 h-10 overflow-hidden rounded-full bg-green-200">
+                <div className="relative w-10 h-10 overflow-hidden rounded-full bg-[#8f0d3450]">
                   <svg
-                    className="absolute w-12 h-12 text-green-500 -left-1"
+                    className="absolute w-12 h-12 text-[#8f0d34] -left-1"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -241,15 +265,15 @@ const CardDetails = ({ allPayments }) => {
                 </div>
                 <div>
                   <p className="text-slate-500 text-lg font-semibold">
-                    {payments?.donater || "Anonymous"}
+                    {payments?.donater || 'Anonymous'}
                   </p>
                   <p className="text-slate-500 text-sm font-semibold flex items-center">
-                    Donated{" "}
-                    {payments?.donation_amount || "Offline for this cause"}
+                    Donated $
+                    {payments?.donation_amount || 'Offline for this cause'}
                     {payments?.donation_amount == undefined ? (
-                      ""
+                      ''
                     ) : (
-                      <p className="text-xs">$ USD for this cause</p>
+                      <p className="text-xs ml-1"> USD for this cause</p>
                     )}
                     {/* {"$"} <div className="text-xs"> USD for this cause</div> */}
                   </p>
@@ -272,11 +296,11 @@ export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     const caseDetailsId1 = context.query.caseDetailsId;
 
-    const response = await fetch("http:localhost:3000/api/getPaymentDetails", {
-      method: "POST",
+    const response = await fetch('http:localhost:3000/api/getPaymentDetails', {
+      method: 'POST',
       body: JSON.stringify({ campaign: { campaignId: caseDetailsId1 } }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
 
