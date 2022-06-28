@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { getSession, useSession } from "next-auth/react";
-import { useSelector } from "react-redux";
-import { paymentOverviewFetch } from "../../store/paymentsSlice";
-import { wrapper } from "../../store/store";
-import { loadStripe } from "@stripe/stripe-js";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { getSession, useSession } from 'next-auth/react';
+import { useSelector } from 'react-redux';
+import { paymentOverviewFetch } from '../../store/paymentsSlice';
+import { wrapper } from '../../store/store';
+import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -21,7 +21,7 @@ const ReadMore = ({ children }) => {
         onClick={toggleReadMore}
         className="read-or-hide cursor-pointer hover:text-green-500"
       >
-        {isReadMore ? "...read more" : " show less"}
+        {isReadMore ? '...read more' : ' show less'}
       </span>
     </p>
   );
@@ -64,7 +64,7 @@ const CardDetails = ({ allPayments }) => {
     setTotalDonations(finalDonationAmount);
   });
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
 
   // const donation = {
@@ -80,16 +80,16 @@ const CardDetails = ({ allPayments }) => {
     console.log(`Is it coming here`);
     const paymentDetails = {
       campaignId: caseDetailsId,
-      paymentId: "324jh32b432kjb32",
+      paymentId: '324jh32b432kjb32',
       donater: name,
       donation_amount: Number(price),
     };
     console.log(`These are the payment Details ${paymentDetails}`);
-    const response = await fetch("/api/addPaymentDetails", {
-      method: "POST",
+    const response = await fetch('/api/addPaymentDetails', {
+      method: 'POST',
       body: JSON.stringify({ paymentDetails }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
     const data = await response.json();
@@ -101,7 +101,7 @@ const CardDetails = ({ allPayments }) => {
 
     const stripe = await stripePromise;
 
-    const checkoutSession = await axios.post("/api/create-stripe-session", {
+    const checkoutSession = await axios.post('/api/create-stripe-session', {
       donation: { name, price },
     });
     console.log(`Is it comeing here ${checkoutSession}`);
@@ -116,7 +116,7 @@ const CardDetails = ({ allPayments }) => {
   return (
     <div className="max-w-6xl mx-auto mt-4 mb-4 p-3">
       <div
-        onClick={() => router.push("/")}
+        onClick={() => router.push('/')}
         className="flex flex-row items-center gap-[3px] cursor-pointer text-[#8f0d34] hover:text-[#530319]"
       >
         <div className="overflow-hidden">
@@ -172,7 +172,7 @@ const CardDetails = ({ allPayments }) => {
                 </svg>
               </div>
               <p className="text-slate-500 text-lg font-semibold">
-                {session?.user?.name || info?.requestor || "Anonymous"} started
+                {session?.user?.name || info?.requestor || 'Anonymous'} started
                 this fundraiser
               </p>
             </div>
@@ -200,20 +200,20 @@ const CardDetails = ({ allPayments }) => {
               <h3 className="text-lg font-semibold mb-3">Patient Details</h3>
               <div className="px-4">
                 <h5 className="text-lg font-semibold mb-3">
-                  Name:{" "}
+                  Name:{' '}
                   <span className="font-light">
-                    {info?.patient_name || "Anonymous"}{" "}
+                    {info?.patient_name || 'Anonymous'}{' '}
                   </span>
                 </h5>
                 <h5 className="text-lg font-semibold mb-3">
                   Age: <span className="font-light">{info?.patient_age}</span>
                 </h5>
                 <h5 className="text-lg font-semibold mb-3">
-                  Gender:{" "}
+                  Gender:{' '}
                   <span className="font-light">{info?.patient_gender} </span>
                 </h5>
                 <h5 className="text-lg font-semibold mb-3">
-                  Address:{" "}
+                  Address:{' '}
                   <span className="font-light">{info?.patient_address}</span>
                 </h5>
               </div>
@@ -238,19 +238,19 @@ const CardDetails = ({ allPayments }) => {
                 </div>
                 <div>
                   <h5 className="text-lg font-semibold mb-3">
-                    Name:{" "}
+                    Name:{' '}
                     <span className="font-light">
-                      {info?.requestor || "Anonymous"}{" "}
+                      {info?.requestor || 'Anonymous'}{' '}
                     </span>
                   </h5>
                   <h5 className="text-lg font-semibold mb-3">
-                    Email:{" "}
+                    Email:{' '}
                     <span className="font-light">
-                      {session?.user?.email || "***** (Hidden due to security)"}
+                      {session?.user?.email || '***** (Hidden due to security)'}
                     </span>
                   </h5>
                   <h5 className="text-lg font-semibold mb-3">
-                    Phone:{" "}
+                    Phone:{' '}
                     <span className="font-light">
                       {info?.requester_contact}
                     </span>
@@ -263,12 +263,12 @@ const CardDetails = ({ allPayments }) => {
           {/* Right side */}
           <div className="bg-white shadow-lg rounded-md p-4 w-full">
             <h5 className="text-lg font-semibold mb-3">
-              {" "}
+              {' '}
               <span className="font-light">
-                ${totalDonations} USD raised of ${info?.goal}{" "}
+                ${totalDonations} USD raised of ${info?.goal}{' '}
               </span>
             </h5>
-            <form className="flex flex-col space-y-2">
+            <form className="flex flex-col space-y-2 py-2">
               <label>Name</label>
               <input
                 type="text"
@@ -276,7 +276,7 @@ const CardDetails = ({ allPayments }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Name"
-                className="bg-gray-50 rounded-lg "
+                className="bg-gray-50 rounded-lg p-3 outline-none"
               />
               <label>Price</label>
               <input
@@ -284,7 +284,7 @@ const CardDetails = ({ allPayments }) => {
                 placeholder="Price"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                className="bg-gray-50 rounded-lg"
+                className="bg-gray-50 rounded-lg p-3 outline-none"
               />
               <p className="mb-3">{allPayments.length} donations</p>
               <button
@@ -316,8 +316,8 @@ const CardDetails = ({ allPayments }) => {
               </div>
               <p className="text-slate-500 text-lg font-semibold">
                 {allPayments.length == 0
-                  ? "Be the first to donate"
-                  : "We would love for you to care"}
+                  ? 'Be the first to donate'
+                  : 'We would love for you to care'}
               </p>
             </div>
             {showDonationDetails.map((payments, index) => (
@@ -341,13 +341,13 @@ const CardDetails = ({ allPayments }) => {
                 </div>
                 <div>
                   <p className="text-slate-500 text-lg font-semibold">
-                    {payments?.donater || "Anonymous"}
+                    {payments?.donater || 'Anonymous'}
                   </p>
                   <div className="text-slate-500 text-sm font-semibold flex items-center">
                     Donated $
-                    {payments?.donation_amount || "Offline for this cause"}
+                    {payments?.donation_amount || 'Offline for this cause'}
                     {payments?.donation_amount == undefined ? (
-                      ""
+                      ''
                     ) : (
                       <div className="text-xs ml-1"> USD for this cause</div>
                     )}
@@ -372,11 +372,11 @@ export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     const caseDetailsId1 = context.query.caseDetailsId;
 
-    const response = await fetch("http:localhost:3000/api/getPaymentDetails", {
-      method: "POST",
+    const response = await fetch('http:localhost:3000/api/getPaymentDetails', {
+      method: 'POST',
       body: JSON.stringify({ campaign: { campaignId: caseDetailsId1 } }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
 
