@@ -8,7 +8,6 @@ import { wrapper } from "../../store/store";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
-
 const ReadMore = ({ children }) => {
   const text = children;
   const [isReadMore, setIsReadMore] = useState(true);
@@ -65,13 +64,13 @@ const CardDetails = ({ allPayments }) => {
     setTotalDonations(finalDonationAmount);
   });
 
-  const [name, setName] = useState('')
-  const [price, setPrice] = useState(0)
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState(0);
 
-  const donation = {
-    name: name,
-    price: price
-  }
+  // const donation = {
+  //   name: name,
+  //   price: price
+  // }
 
   const publishableKey = `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`;
   const stripePromise = loadStripe(publishableKey);
@@ -82,8 +81,8 @@ const CardDetails = ({ allPayments }) => {
     const paymentDetails = {
       campaignId: caseDetailsId,
       paymentId: "324jh32b432kjb32",
-      donater: donation.name,
-      donation_amount: donation.price,
+      donater: name,
+      donation_amount: Number(price),
     };
     console.log(`These are the payment Details ${paymentDetails}`);
     const response = await fetch("/api/addPaymentDetails", {
@@ -99,10 +98,13 @@ const CardDetails = ({ allPayments }) => {
 
   const checkout = async () => {
     makePayment();
+
     const stripe = await stripePromise;
+
     const checkoutSession = await axios.post("/api/create-stripe-session", {
-      donation: donation,
+      donation: { name, price },
     });
+    console.log(`Is it comeing here ${checkoutSession}`);
     const result = await stripe.redirectToCheckout({
       sessionId: checkoutSession.data.id,
     });
@@ -271,7 +273,7 @@ const CardDetails = ({ allPayments }) => {
               <input
                 type="text"
                 required
-                value={name} 
+                value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Name"
                 className="bg-gray-50 rounded-lg "
@@ -279,18 +281,21 @@ const CardDetails = ({ allPayments }) => {
               <label>Price</label>
               <input
                 required
-                placeholder='Price'
-                value={price} 
+                placeholder="Price"
+                value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 className="bg-gray-50 rounded-lg"
               />
-            <p className="mb-3">{allPayments.length} donations</p>
-            <button
-              className="btn bg-[#8f0d34] hover:bg-[#530319] p-3 mb-3 w-full rounded-md text-white font-bold"
-              onClick={checkout}
-            >
-              Donate
-            </button>
+              <p className="mb-3">{allPayments.length} donations</p>
+              <button
+                className="btn bg-[#8f0d34] hover:bg-[#530319] p-3 mb-3 w-full rounded-md text-white font-bold"
+                onClick={(e) => {
+                  e.preventDefault();
+                  checkout();
+                }}
+              >
+                Donate
+              </button>
             </form>
             <div className="flex flex-row items-center gap-3 mb-3">
               <div className="relative w-10 h-10 overflow-hidden rounded-full bg-[#8f0d3450]">
