@@ -14,7 +14,7 @@ function Feed() {
 
   return (
     <div className=" max-w-6xl border-2 max-h-screen overflow-y-scroll scrollbar-hide p-3">
-      <div className="flex  items-center justify-between">
+      <div className="flex  items-center justify-between mb-5">
         <h1 className="p-5 pb-0 text-xl font-bold">
           Fundraisers in your communnity
         </h1>
