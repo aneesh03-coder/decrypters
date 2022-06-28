@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -9,6 +9,9 @@ import { serverTimestamp } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
+import { getSession, useSession, signIn, signOut } from "next-auth/react";
+import { useSelector, useDispatch } from "react-redux";
+import { isLoggedInFetch } from "../store/campaignSlice";
 
 const schema = yup.object().shape({
   caseTitle: yup.string().required("The case title is required!"),
@@ -93,6 +96,10 @@ console.log(randomImage());
 
 export default function Request() {
   const router = useRouter();
+  // const [loggedIn, setLoggedIn] = useState(false);
+  // const [runUseEffectOnce, setRunUseEffectOnce] = useState(1);
+  const loggedIn = useSelector((state) => state.campaign.isLoggedIn);
+
   const {
     handleSubmit,
     control,
@@ -123,197 +130,240 @@ export default function Request() {
 
   console.log(errors);
 
+  // console.log(session);
+  const { session } = useSession();
+
+  const dispatch = useDispatch();
+  console.log(`The session is ${session}`);
+  // console.log(session.user);
+  // if (!session) {
+  // }
+  // let shouldRun = useRef(true);
+  // useEffect(() => {
+  //   if (shouldRun.current) {
+  //     if (!loggedIn) {
+  //       signIn("google");
+  //       shouldRun.current = false;
+  //       dispatch(isLoggedInFetch());
+  //     } else {
+  //     }
+  //   }
+  // }, []);
+
   return (
-    <div className="grid grid-cols-1 my-20">
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <form
-        className="max-w-[700px] w-full mx-auto bg-slate-100 p-8 px-8 rounded-lg"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <h3 className="text-4xl text-center my-6">Request a case</h3>
-        <div className="my-2">
-          <Controller
-            name="caseTitle"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Case title"
-                variant="filled"
-                error={!!errors.caseTitle}
-                helperText={errors.caseTitle ? errors.caseTitle?.message : ""}
-                fullWidth
-              />
+    <div>
+      {!session?.user.name ? (
+        <div className="w-full h-full flex justify-center place-items-center text-3xl text-red-500">
+          You need to login to start a new campaign.
+          {/* <div className="transition-all duration-200 hover:bg-gray-200 p-2 rounded-lg">
+            {!session ? (
+              <p onClick={() => signIn("google")}>SignIn</p>
+            ) : (
+              <p onClick={signOut}>SignOut</p>
             )}
-          />
+          </div> */}
         </div>
+      ) : (
+        <div className="grid grid-cols-1 my-20">
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+          <form
+            className="max-w-[700px] w-full mx-auto bg-slate-100 p-8 px-8 rounded-lg"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <h3 className="text-4xl text-center my-6">Request a case</h3>
+            <div className="my-2">
+              <Controller
+                name="caseTitle"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Case title"
+                    variant="filled"
+                    error={!!errors.caseTitle}
+                    helperText={
+                      errors.caseTitle ? errors.caseTitle?.message : ""
+                    }
+                    fullWidth
+                  />
+                )}
+              />
+            </div>
 
-        <div className="my-2">
-          <Controller
-            name="requesterContact"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Requester contact"
-                variant="filled"
-                error={!!errors.requesterContact}
-                helperText={
-                  errors.requesterContact
-                    ? errors.requesterContact?.message
-                    : ""
-                }
-                fullWidth
+            <div className="my-2">
+              <Controller
+                name="requesterContact"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Requester contact"
+                    variant="filled"
+                    error={!!errors.requesterContact}
+                    helperText={
+                      errors.requesterContact
+                        ? errors.requesterContact?.message
+                        : ""
+                    }
+                    fullWidth
+                  />
+                )}
               />
-            )}
-          />
-        </div>
+            </div>
 
-        <div className="my-2">
-          <Controller
-            name="patientAddress"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Patient address"
-                variant="filled"
-                error={!!errors.patientAddress}
-                helperText={
-                  errors.patientAddress ? errors.patientAddress?.message : ""
-                }
-                fullWidth
+            <div className="my-2">
+              <Controller
+                name="patientAddress"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Patient address"
+                    variant="filled"
+                    error={!!errors.patientAddress}
+                    helperText={
+                      errors.patientAddress
+                        ? errors.patientAddress?.message
+                        : ""
+                    }
+                    fullWidth
+                  />
+                )}
               />
-            )}
-          />
-        </div>
+            </div>
 
-        <div className="my-2">
-          <Controller
-            name="patientDescription"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                multiline
-                rows={6}
-                maxRows={4}
-                {...field}
-                label="Patient description"
-                variant="filled"
-                error={!!errors.patientDescription}
-                helperText={
-                  errors.patientDescription
-                    ? errors.patientDescription?.message
-                    : ""
-                }
-                fullWidth
+            <div className="my-2">
+              <Controller
+                name="patientDescription"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    multiline
+                    rows={6}
+                    maxRows={4}
+                    {...field}
+                    label="Patient description"
+                    variant="filled"
+                    error={!!errors.patientDescription}
+                    helperText={
+                      errors.patientDescription
+                        ? errors.patientDescription?.message
+                        : ""
+                    }
+                    fullWidth
+                  />
+                )}
               />
-            )}
-          />
-        </div>
-        <div className="my-2">
-          <Controller
-            name="amountGoal"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Amount goal"
-                variant="filled"
-                error={!!errors.amountGoal}
-                helperText={errors.amountGoal ? errors.amountGoal?.message : ""}
-                fullWidth
-                type="number"
+            </div>
+            <div className="my-2">
+              <Controller
+                name="amountGoal"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Amount goal"
+                    variant="filled"
+                    error={!!errors.amountGoal}
+                    helperText={
+                      errors.amountGoal ? errors.amountGoal?.message : ""
+                    }
+                    fullWidth
+                    type="number"
+                  />
+                )}
               />
-            )}
-          />
-        </div>
-        <div className="my-2">
-          <Controller
-            name="patientAge"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Patient age"
-                variant="filled"
-                error={!!errors.patientAge}
-                helperText={errors.patientAge ? errors.patientAge?.message : ""}
-                fullWidth
-                type="number"
+            </div>
+            <div className="my-2">
+              <Controller
+                name="patientAge"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Patient age"
+                    variant="filled"
+                    error={!!errors.patientAge}
+                    helperText={
+                      errors.patientAge ? errors.patientAge?.message : ""
+                    }
+                    fullWidth
+                    type="number"
+                  />
+                )}
               />
-            )}
-          />
-        </div>
-        <div className="my-2">
-          <Controller
-            name="patientGender"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Patient gender"
-                variant="filled"
-                error={!!errors.patientGender}
-                helperText={
-                  errors.patientGender ? errors.patientGender?.message : ""
-                }
-                fullWidth
+            </div>
+            <div className="my-2">
+              <Controller
+                name="patientGender"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Patient gender"
+                    variant="filled"
+                    error={!!errors.patientGender}
+                    helperText={
+                      errors.patientGender ? errors.patientGender?.message : ""
+                    }
+                    fullWidth
+                  />
+                )}
               />
-            )}
-          />
-        </div>
-        <div className="my-2">
-          <Controller
-            name="patientName"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Patient name"
-                variant="filled"
-                error={!!errors.patientName}
-                helperText={
-                  errors.patientName ? errors.patientName?.message : ""
-                }
-                fullWidth
+            </div>
+            <div className="my-2">
+              <Controller
+                name="patientName"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Patient name"
+                    variant="filled"
+                    error={!!errors.patientName}
+                    helperText={
+                      errors.patientName ? errors.patientName?.message : ""
+                    }
+                    fullWidth
+                  />
+                )}
               />
-            )}
-          />
-        </div>
-        <div className="my-2">
-          <Controller
-            name="relation"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Relation"
-                variant="filled"
-                error={!!errors.relation}
-                helperText={errors.relation ? errors.relation?.message : ""}
-                fullWidth
+            </div>
+            <div className="my-2">
+              <Controller
+                name="relation"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Relation"
+                    variant="filled"
+                    error={!!errors.relation}
+                    helperText={errors.relation ? errors.relation?.message : ""}
+                    fullWidth
+                  />
+                )}
               />
-            )}
-          />
-        </div>
+            </div>
 
-        <input
-          className="bg-[#a2203e] hover:cursor-pointer w-full hover:bg-[#530319] text-white font-bold py-2 px-4 rounded transition-all my-5"
-          type="submit"
-          value="Request"
-        />
-      </form>
+            <input
+              className="bg-[#a2203e] hover:cursor-pointer w-full hover:bg-[#530319] text-white font-bold py-2 px-4 rounded transition-all my-5"
+              type="submit"
+              value="Request"
+            />
+          </form>
+        </div>
+      )}
     </div>
   );
 }
