@@ -5,6 +5,8 @@ import { getSession, useSession } from 'next-auth/react';
 import { useSelector } from 'react-redux';
 import { paymentOverviewFetch } from '../../store/paymentsSlice';
 import { wrapper } from '../../store/store';
+import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -61,6 +63,28 @@ const CardDetails = ({ allPayments }) => {
     });
     setTotalDonations(finalDonationAmount);
   });
+
+  const donation = {
+    name: 'alex',
+    price: 100
+  }
+
+  const publishableKey = `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`;
+  const stripePromise = loadStripe(publishableKey);
+  
+  
+  const checkout = async () => {
+    const stripe = await stripePromise;
+    const checkoutSession = await axios.post('/api/create-stripe-session', {
+      donation: donation,
+    });
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+    if (result.error) {
+      alert(result.error.message);
+    } 
+  };
 
   return (
     <div className="max-w-6xl mx-auto mt-4 mb-4 p-3">
@@ -218,7 +242,7 @@ const CardDetails = ({ allPayments }) => {
               </span>
             </h5>
             <p className="mb-3">{allPayments.length} donations</p>
-            <button className="btn bg-[#8f0d34] hover:bg-[#530319] p-3 mb-3 w-full rounded-md text-white font-bold">
+            <button className="btn bg-[#8f0d34] hover:bg-[#530319] p-3 mb-3 w-full rounded-md text-white font-bold" onClick={checkout}>
               Donate
             </button>
             <div className="flex flex-row items-center gap-3 mb-3">
