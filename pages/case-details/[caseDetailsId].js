@@ -7,7 +7,7 @@ import { paymentOverviewFetch } from "../../store/paymentsSlice";
 import { wrapper } from "../../store/store";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-import { uuid } from "react-uuid";
+
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -65,10 +65,13 @@ const CardDetails = ({ allPayments }) => {
     setTotalDonations(finalDonationAmount);
   });
 
+  const [name, setName] = useState('')
+  const [price, setPrice] = useState(0)
+
   const donation = {
-    name: "alex",
-    price: 100,
-  };
+    name: name,
+    price: price
+  }
 
   const publishableKey = `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`;
   const stripePromise = loadStripe(publishableKey);
@@ -263,6 +266,24 @@ const CardDetails = ({ allPayments }) => {
                 ${totalDonations} USD raised of ${info?.goal}{" "}
               </span>
             </h5>
+            <form className="flex flex-col space-y-2">
+              <label>Name</label>
+              <input
+                type="text"
+                required
+                value={name} 
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Name"
+                className="bg-gray-50 rounded-lg "
+              />
+              <label>Price</label>
+              <input
+                required
+                placeholder='Price'
+                value={price} 
+                onChange={(e) => setPrice(e.target.value)}
+                className="bg-gray-50 rounded-lg"
+              />
             <p className="mb-3">{allPayments.length} donations</p>
             <button
               className="btn bg-[#8f0d34] hover:bg-[#530319] p-3 mb-3 w-full rounded-md text-white font-bold"
@@ -270,6 +291,7 @@ const CardDetails = ({ allPayments }) => {
             >
               Donate
             </button>
+            </form>
             <div className="flex flex-row items-center gap-3 mb-3">
               <div className="relative w-10 h-10 overflow-hidden rounded-full bg-[#8f0d3450]">
                 <svg
