@@ -4,6 +4,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import TextField from '@mui/material/TextField';
+import firebase from 'firebase/compat/app';
+import { serverTimestamp } from 'firebase/firestore';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/router';
 
 const schema = yup.object().shape({
   caseTitle: yup.string().required('The case title is required!'),
@@ -37,6 +42,28 @@ let imagesArray = [
 const randomImage = () => {
   return imagesArray[Math.floor(Math.random() * imagesArray.length)];
 };
+
+const successNotification = () =>
+  toast.success('You request have been submitted successfully', {
+    position: 'top-center',
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+const errorNotification = () =>
+  toast.error('Oh oh! Something went wrong!', {
+    position: 'top-center',
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+
 const saveCampaign = async (submittedData) => {
   const newCampaign = {
     Title: submittedData.caseTitle,
@@ -49,17 +76,9 @@ const saveCampaign = async (submittedData) => {
     patient_name: submittedData.patientName,
     relation: submittedData.relation,
     requester_contact: submittedData.requesterContact,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    timestamp: serverTimestamp(),
   };
 
-  // To_Firebase
-
-  db.collection('userDocs')
-  .doc(session.user.email)
-  .collection("docs")
-  .add(newCampaign)
-
-  // From _Firebase
 
 
   const response = await fetch('/api/addCampaign', {
@@ -70,11 +89,28 @@ const saveCampaign = async (submittedData) => {
     },
   });
   const data = await response.json();
+
+  try {
+    const response = await fetch('/api/addCampaign', {
+      method: 'POST',
+      body: JSON.stringify({ newCampaign }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    successNotification();
+  } catch (err) {
+    errorNotification();
+  }
+
 };
 
 console.log(randomImage());
 
 export default function Request() {
+  const router = useRouter();
   const {
     handleSubmit,
     control,
@@ -86,13 +122,38 @@ export default function Request() {
 
   const onSubmit = (data) => {
     saveCampaign(data);
-    reset();
+    reset({
+      caseTitle: '',
+      requesterContact: '',
+      patientAddress: '',
+      patientDescription: '',
+      amountGoal: '',
+      patientAge: '',
+      patientGender: '',
+      patientName: '',
+      relation: '',
+    });
+
+    setTimeout(() => {
+      router.push('/');
+    }, 6000);
   };
 
   console.log(errors);
 
   return (
     <div className='grid grid-cols-1 my-20'>
+      <ToastContainer
+        position='top-center'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <form
         className='max-w-[700px] w-full mx-auto bg-slate-100 p-8 px-8 rounded-lg'
         onSubmit={handleSubmit(onSubmit)}
