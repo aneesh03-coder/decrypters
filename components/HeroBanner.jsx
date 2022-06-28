@@ -12,7 +12,7 @@ function HeroBanner() {
   return (
     <div className=" bg-[url('https://images.pexels.com/photos/9486900/pexels-photo-9486900.jpeg?auto=compress&cs=tinysrgb&w=600')] flex-1 max-w-4xl bg-[#dcdcdc] rounded-lg py-6 px-12 h-4/5 pb-12 leading-3 bg-cover bg-center  relative sticky-0">
 
-      <div className="py-12 -mt-12 text-white italic text-lg"> 
+      <div className="py-12 -mt-12 text-white italic text-lg font-poppins"> 
       <Typewriter 
         options={{
           autoStart:true,

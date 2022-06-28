@@ -51,6 +51,17 @@ const saveCampaign = async (submittedData) => {
     requester_contact: submittedData.requesterContact,
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
   };
+
+  // To_Firebase
+
+  db.collection('userDocs')
+  .doc(session.user.email)
+  .collection("docs")
+  .add(newCampaign)
+
+  // From _Firebase
+
+
   const response = await fetch('/api/addCampaign', {
     method: 'POST',
     body: JSON.stringify({ newCampaign }),
