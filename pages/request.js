@@ -85,21 +85,19 @@ const saveCampaign = async (submittedData) => {
       },
     });
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     successNotification();
   } catch (err) {
     errorNotification();
   }
 };
 
-console.log(randomImage());
+// console.log(randomImage());
 
-export default function Request() {
+export default function Request({ sessionDetails }) {
   const router = useRouter();
-  // const [loggedIn, setLoggedIn] = useState(false);
-  // const [runUseEffectOnce, setRunUseEffectOnce] = useState(1);
-  const loggedIn = useSelector((state) => state.campaign.isLoggedIn);
 
+  // console.log(sessionDetails);
   const {
     handleSubmit,
     control,
@@ -128,40 +126,15 @@ export default function Request() {
     }, 6000);
   };
 
-  console.log(errors);
-
-  // console.log(session);
-  const { session } = useSession();
-
-  const dispatch = useDispatch();
-  console.log(`The session is ${session}`);
-  // console.log(session.user);
-  // if (!session) {
-  // }
-  // let shouldRun = useRef(true);
-  // useEffect(() => {
-  //   if (shouldRun.current) {
-  //     if (!loggedIn) {
-  //       signIn("google");
-  //       shouldRun.current = false;
-  //       dispatch(isLoggedInFetch());
-  //     } else {
-  //     }
-  //   }
-  // }, []);
+  if (!sessionDetails?.user) {
+    signIn("google");
+  }
 
   return (
     <div>
-      {!session?.user.name ? (
+      {sessionDetails?.user == undefined ? (
         <div className="w-full h-full flex justify-center place-items-center text-3xl text-red-500">
-          You need to login to start a new campaign.
-          {/* <div className="transition-all duration-200 hover:bg-gray-200 p-2 rounded-lg">
-            {!session ? (
-              <p onClick={() => signIn("google")}>SignIn</p>
-            ) : (
-              <p onClick={signOut}>SignOut</p>
-            )}
-          </div> */}
+          You need to login to start a new campaign.Redirecting you to login...
         </div>
       ) : (
         <div className="grid grid-cols-1 my-20">
@@ -366,4 +339,11 @@ export default function Request() {
       )}
     </div>
   );
+}
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      sessionDetails: await getSession(context),
+    },
+  };
 }
