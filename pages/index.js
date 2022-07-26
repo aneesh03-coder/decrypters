@@ -19,6 +19,7 @@ export default function Home() {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async () => {
+    console.log("coming back")
     const response = await fetch("http:localhost:3000/api/getAllCampaigns");
     const data = await response.json();
     store.dispatch(campaignFetch(data));

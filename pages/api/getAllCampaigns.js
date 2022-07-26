@@ -5,6 +5,9 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     await db
       .collection("campaigns")
+       //.orderBy('createdAt', 'desc')
+       .orderBy('timestamp', 'desc')
+
       .get()
       .then((querySnapshot) => {
         let campaigns = [];
