@@ -32,7 +32,7 @@ function HeroBanner() {
             <button
               onClick={() => router.push("/request")}
               type="button"
-              className="rounded-lg py-2 px-6 bg-transparent text-white border border-white mt-12 text-2xl font-semibold cursor-pointer transition-transform duration-150 ease-out hover:scale-150 z-40"
+              className="rounded-lg py-2 px-6 bg-transparent text-white border border-white mt-12 text-2xl font-semibold cursor-pointer transition-transform duration-150 ease-out hover:scale-75 z-40"
             >
               Start campaign
             </button>
